@@ -112,18 +112,42 @@ document.addEventListener('DOMContentLoaded', function() {
         statsObserver.observe(stat);
     });
 
-    const floatingBricks = document.querySelectorAll('.floating-brick');
-    floatingBricks.forEach((brick, index) => {
+    const floatingElements = document.querySelector('.floating-elements');
+    const totalBricks = 42;
+    
+    function updateFloatingElementsHeight() {
+        const footer = document.querySelector('.footer');
+        const footerTop = footer ? footer.offsetTop : document.body.scrollHeight;
+        floatingElements.style.height = `${footerTop}px`;
+    }
+    
+    setTimeout(() => {
+        updateFloatingElementsHeight();
+    }, 100);
+    
+    window.addEventListener('resize', updateFloatingElementsHeight);
+    
+    const resizeObserver = new ResizeObserver(() => {
+        updateFloatingElementsHeight();
+    });
+    resizeObserver.observe(document.body);
+    
+    for (let i = 0; i < totalBricks; i++) {
+        const brick = document.createElement('div');
+        brick.className = 'floating-brick';
+        
         const randomX = Math.random() * 100;
-        const randomY = Math.random() * 100;
+        const randomTop = (i / (totalBricks - 1)) * 100;
         const randomDelay = Math.random() * 2;
         const randomDuration = 4 + Math.random() * 4;
         
         brick.style.left = `${randomX}%`;
-        brick.style.top = `${randomY}%`;
+        brick.style.top = `${randomTop}%`;
         brick.style.animationDelay = `${randomDelay}s`;
         brick.style.animationDuration = `${randomDuration}s`;
-    });
+        
+        floatingElements.appendChild(brick);
+    }
 
     window.addEventListener('mousemove', function(e) {
         const mouseX = e.clientX / window.innerWidth;
