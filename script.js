@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const floatingElements = document.querySelector('.floating-elements');
-    const totalBricks = 42;
+    const totalBricks = 20;
     
     function updateFloatingElementsHeight() {
         const footer = document.querySelector('.footer');
